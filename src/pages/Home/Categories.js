@@ -18,10 +18,15 @@ const Categories = (props) => {
           <p>Price :{" " + dealDetails.price}</p>
           <p>{dealDetails.description}</p>
           {dealDetails.media.map((img, index) => {
-                      return (
-                        <img key={"img" + index} src={img} alt="img" style={{ width: "25%" }} />
-                      );
-                    })}
+            return (
+              <img
+                key={"img" + index}
+                src={img}
+                alt="img"
+                style={{ width: "25%", margin: "12px" }}
+              />
+            );
+          })}
         </Fragment>
       )}
     </Fragment>

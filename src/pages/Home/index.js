@@ -28,7 +28,9 @@ const Home = (props) => {
       let result = await axios.get(url);
       setDealList(result.data);
       setreduxDealList(result.data);
-      let uniqClauselist = [...new Set(result.data.map(item => item.cause.name))];
+      let uniqClauselist = [
+        ...new Set(result.data.map((item) => item.cause.name)),
+      ];
       setClauseList(uniqClauselist);
       setShowLoader(false);
     } catch (error) {
@@ -49,36 +51,52 @@ const Home = (props) => {
       console.log("deal details error ------->", error);
     }
   };
-  const onClauseSelect = (e) =>{
-    if(e.target.value !== "all"){
-      let clauseWiseList = reduxdealList.filter(ele => ele.cause.name === e.target.value);
-      setDealList(clauseWiseList)
-    }else{
+  const onClauseSelect = (e) => {
+    if (e.target.value !== "all") {
+      let clauseWiseList = reduxdealList.filter(
+        (ele) => ele.cause.name === e.target.value
+      );
+      setDealList(clauseWiseList);
+    } else {
       setDealList(reduxdealList);
     }
-  }
+  };
   return (
     <div className="auth-page home-page">
       <div className="container page">
         <div className="row">
-          <h2>Deals</h2>
-          <select onChange={onClauseSelect} name="clauseName">
-          <option value="all">All</option>
-          {clauseList.map((ele,index)=>{
-            return <option key={"option" + index} value={ele}>{ele}</option>
-          })}
-          </select>
+          <div className="col-md-4">
+            <h2>Deals</h2>
+          </div>
+          <div className="col-md-4">
+            <select onChange={onClauseSelect} name="clauseName">
+              <option value="all">All</option>
+              {clauseList.map((ele, index) => {
+                return (
+                  <option key={"option" + index} value={ele}>
+                    {ele}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+          <div className="col-md-4"></div>
         </div>
         {showLoader && (
-          <div className="spin-center">
-            <Space size="large">
-              <Spin size="large" />
-            </Space>
+          <div className="row loading">
+            <div className="spin-center">
+              <Space size="large">
+                <Spin size="large" />
+              </Space>
+            </div>
           </div>
         )}
 
         <div className="row">
-          <div className="col-md-6">
+          <div
+            className="col-md-6"
+            style={{ height: "79vh", overflowY: "auto" }}
+          >
             {dealList.map((deal, index) => {
               return (
                 <Fragment>
@@ -87,13 +105,18 @@ const Home = (props) => {
                     className="sidebar"
                     style={{
                       background: "none",
-                      border: "1px solid black",
+                      borderBottom: "1px solid black",
                     }}
                   >
                     <h6>Cause :{" " + deal.cause.name}</h6>
                     <p>Title :{" " + deal.title}</p>
                     <p>Price :{" " + deal.price}</p>
-                    <button className="btn" onClick={() => selectDeal(deal.key)}>Get Details</button>
+                    <button
+                      className="btn"
+                      onClick={() => selectDeal(deal.key)}
+                    >
+                      Get Details
+                    </button>
                   </div>
                 </Fragment>
               );
